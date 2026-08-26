@@ -18,5 +18,8 @@ def health() -> dict[str, str]:
 
 @app.post("/tickets", response_model=TicketResponse)
 def create_ticket(request: TicketRequest) -> TicketResponse:
-    response = handle_ticket(request.ticket)
-    return TicketResponse(response=response)
+    decision = handle_ticket(request.ticket)
+    return TicketResponse(
+        action = decision.action,
+        response=decision.response,
+        reason = decision.reason)
