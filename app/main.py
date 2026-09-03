@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.agent import handle_ticket
+from app.graph import support_graph
 from app.schemas import TicketRequest, TicketResponse
 
 
@@ -18,8 +18,13 @@ def health() -> dict[str, str]:
 
 @app.post("/tickets", response_model=TicketResponse)
 def create_ticket(request: TicketRequest) -> TicketResponse:
-    decision = handle_ticket(request.ticket)
+    result = support_graph.invoke(
+        {'ticket': request.ticket}
+    )
+
+    decision = result['decision']
     return TicketResponse(
-        action = decision.action,
+        action=decision.action,
         response=decision.response,
-        reason = decision.reason)
+        reason = decision.reason
+    )

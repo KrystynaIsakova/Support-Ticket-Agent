@@ -9,7 +9,6 @@ FORBIDDEN_CLAIMS = [
 
 def validate_decision(decision: AgentDecision) -> list[str]:
     errors = []
-    errors.append("Temporary lesson test: force validation failure.")
 
     response = decision.response.lower()
     for claim in FORBIDDEN_CLAIMS:
